@@ -27,13 +27,8 @@ CFLAGS = --std=c++20 -O0 -Wall
 
 # ARQUIVOS
 MAIN = $(OBJ_DIR)/main.o
-
-PROGRAM_OBJS =	$(OBJ_DIR)/file_1.o \
-				$(OBJ_DIR)/file_2.o
-
-TEST_OBJS = $(OBJ_DIR)/file_1_test.o \
-			$(OBJ_DIR)/file_2_test.o \
-			$(OBJ_DIR)/main_doctest.o
+PROGRAM_OBJS := $(shell find $(SRC) -type f -name "*.cc" ! -name "main.cc" ! -name "*test.cc" -exec echo '$(OBJ_DIR)/{}' \; | sed 's/src\///;s/\/\.\//\//;s/\.cc/.o/')
+TEST_OBJS := $(shell find $(TST_DIR) -type f -name "*.cc" -exec echo '$(OBJ_DIR)/{}' \; | sed 's/src\/tests\///;s/\/\.\//\//;s/\.cc/.o/')
 
 # CASES
 build: $(OBJ_DIR)/$(PROGRAM_NAME)
